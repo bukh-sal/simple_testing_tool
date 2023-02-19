@@ -11,6 +11,11 @@ Future<http.Response> sendRequest(String url) async {
 // authenticated get (include seeionID cookie in header)
 
 Future<http.Response> authenticatedGetRequest(String path) async {
+  // clean sessionID if it is not empty, ensure it does not contain any space or new line
+  if (sessionID.isNotEmpty) {
+    sessionID = sessionID.replaceAll(RegExp(r'\s'), '');
+  }
+
   Uri uri = Uri.parse(baseUrl + path);
   http.Response response = await http.get(
     uri,
